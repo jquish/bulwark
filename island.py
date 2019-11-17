@@ -14,6 +14,7 @@ SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Bulwark"
 
 ocean_level = 0
+<<<<<<< HEAD
 sandbag_rows = 0
 
 
@@ -61,6 +62,11 @@ def update_sandbags(self):
 def delete_sandbag_row():
     return 1
 
+=======
+sea_rise_rate = 1
+sandbag_count = 0
+sandbag_protection = 0
+>>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
 
 def make_bulwark():
     return 1
@@ -173,10 +179,27 @@ def island():
     house(350, 360, (134, 95, 132))
     
 
+<<<<<<< HEAD
 def easier_writing(lowX, lowY, string):
     arcade.draw_text(string, lowX, lowY, arcade.color.BLACK, 20, width=100, align="center", anchor_x="center", anchor_y="center")
    
     
+=======
+#Writing in the game stats
+    arcade.draw_rectangle_filled(200, 100, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Sea level: " + str(ocean_level)), 200, 100, arcade.color.BLACK, 20, width=150, align="center", anchor_x="center", anchor_y="center")
+
+    arcade.draw_rectangle_filled(600, 100, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Sandbag Protection: " + str(sandbag_protection)), 600, 100, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
+
+    arcade.draw_rectangle_filled(200, 50, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Sea Level Rise Rate: " + str(sea_rise_rate)), 200, 50, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
+
+    arcade.draw_rectangle_filled(600, 50, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Amassed Sandbags: " + str(sandbag_count)), 600, 50, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
+
+
+>>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
 def draw_menu():
     # finish drawing and display result
 
@@ -346,7 +369,67 @@ class BuyEfficientHousesButton(TextButton):
         super().on_release()
         self.action_function()
 
+<<<<<<< HEAD
         
+=======
+class TrafficLight(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Light Traffic", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class TrafficMid(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Average Traffic", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class TrafficHeavy(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Heavy Traffic", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class DistShort(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Short Distance", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class DistMid(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Average Distance", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class DistLong(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Long Distance", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+
+
+
+>>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
 class Bulwark(arcade.Window):
     """
     Main application class.
@@ -391,6 +474,7 @@ class Bulwark(arcade.Window):
 
         buy_houses_button = BuyEfficientHousesButton(1025, 350, self.pause_program)
         self.button_list.append(buy_houses_button)
+<<<<<<< HEAD
         
 
 #    def on_draw(self):
@@ -405,6 +489,40 @@ class Bulwark(arcade.Window):
 #        # Draw the buttons
 #        for button in self.button_list:
 #            button.draw()
+=======
+
+        traffic_light = TrafficLight(1025, 275, self.pause_program)
+        self.button_list.append(traffic_light)
+
+        traffic_mid = TrafficMid(1025, 220, self.pause_program)
+        self.button_list.append(traffic_mid)
+
+        traffic_heavy = TrafficHeavy(1025, 165, self.pause_program)
+        self.button_list.append(traffic_heavy)
+
+        distance_short = DistShort(1245, 275, self.pause_program)
+        self.button_list.append(distance_short)
+
+        distance_mid = DistMid(1245, 220, self.pause_program)
+        self.button_list.append(distance_mid)
+
+        distance_long = DistLong(1245, 165, self.pause_program)
+        self.button_list.append(distance_long)
+
+
+    def on_draw(self):
+        """
+        Render the screen.
+        """
+
+        arcade.start_render()
+        island()
+        draw_menu()
+
+        # Draw the buttons
+        for button in self.button_list:
+            button.draw()
+>>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
 
     def on_update(self, delta_time):
         """
