@@ -13,16 +13,21 @@ SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Bulwark"
 
+# current sea level
 ocean_level = 0
+# number of rows in bulwark
 sandbag_rows = 0
 
+# current rate at which water is rising
 sea_rise_rate = 1
+# current sandbag supply -- doesn't include bulwark
 sandbag_count = 0
+# current number of solar panels
 panel_count = 0
-sandbag_protection = 0
 
+# stores user input for travel calculation
 travel_duration = 1
-travel_efficienty = 1
+travel_efficiency = 1
 
 
 """ draws half of a sandbag row -- takes row number, beginning & ending angles """
@@ -47,25 +52,8 @@ def make_half_sandbag_row(row, start_angle, end_angle):
 
         arcade.draw_ellipse_filled(x1 + 300, y1 + 260 + (row * 2), 8, 4, arcade.color.TAN, 0, 20)
         
-        
-""" adds a full row of sandbags """
-def update_sandbags(self):
     
-    # accesses global variable
-    global sandbag_rows
-    
-    # draws back half of new row
-    make_half_sandbag_row(sandbag_rows, 0, 180)
-    # redraws island
-    island()
-    # draws front half of all rows -- necessary because island is printed overtop previous rows
-    for row in range (0, sandbag_rows):
-        make_half_sandbag_row(row, 180, 360)
-    
-    # updates row count
-    sandbag_rows += 1
-    
-
+""" deletes top sandbag row """
 def delete_sandbag_row():
     return 1
   
