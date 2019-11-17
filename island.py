@@ -29,7 +29,7 @@ def tree(x, y):
     arcade.draw_polygon_filled(tree, (18, 77, 18))
 
 def easier_writing(lowX, lowY, string):
-    arcade.draw_text(string, lowX, lowY, arcade.color.BLACK, 20)
+    arcade.draw_text(string, lowX, lowY, arcade.color.BLACK, 20, width=100, align="center", anchor_x="center", anchor_y="center")
 
 def island():
 
@@ -95,12 +95,15 @@ def island():
 
 def draw_menu():
     # finish drawing and display result
-    easier_writing(800, 800, "Bullwark")
 
     #Menu range - buffer 100ppx in right half
-    arcade.draw_rectangle_outline(1200, 450, 600, 700, arcade.color.TROLLEY_GREY)
+    arcade.draw_rectangle_filled(1200, 450, 600, 700, (132,132,130,150))
+    arcade.draw_rectangle_outline(1200, 450, 600, 700, (1, 1, 1))
 
-    #buttons for buying things
+    arcade.draw_rectangle_filled(1200,800,120,40,arcade.color.AERO_BLUE)
+    arcade.draw_rectangle_outline(1200,800,120,40,arcade.color.BLACK)
+    easier_writing(1200, 800, "Bullwark")
+
 
 
 class TextButton:
@@ -274,6 +277,7 @@ class MyGame(arcade.Window):
         # Create our on-screen GUI buttons
         self.button_list = []
 
+        #HERE'S THE DAMN BUTTONS
         sell_sandbags_button = SellSandbagsButton(1025, 570, self.resume_program)
         self.button_list.append(sell_sandbags_button)
 
@@ -300,10 +304,13 @@ class MyGame(arcade.Window):
         island()
         draw_menu()
 
-
         # Draw the buttons
         for button in self.button_list:
             button.draw()
+
+
+
+
 
     def on_update(self, delta_time):
         """
