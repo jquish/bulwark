@@ -10,28 +10,29 @@ import os
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
-SCREEN_TITLE = "Bullwark"
-
+SCREEN_TITLE = "Bulwark"
 
 ocean_level = 0
 
+#Is there supposed to be something here?
 def sandbags():
-    
+    return 1
+
 
 def ocean_rise(self):
-    
+
     # access global var
     global ocean_level
     # redraw island & updated sea level
     island()
-    
+
     # flood island
     for i in range (0, ocean_level):
         arcade.draw_arc_outline(300, 260 + i, 225, 55, arcade.color.TEAL, 180, 360, 2, 0, 20)
-    
+
     # increase sea level
     ocean_level += 1
-   
+
 
 def house(x, y, color):
 
@@ -58,7 +59,7 @@ def island():
     arcade.draw_rectangle_filled(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.AERO_BLUE)
     arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300, arcade.color.TEAL)
     arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300 + (ocean_level * 2), arcade.color.TEAL)
-    
+
     # island base
     arcade.draw_ellipse_filled(300, 260, 450, 110, arcade.color.FOREST_GREEN, 0, 20)
 
@@ -124,8 +125,14 @@ def draw_menu():
 
     arcade.draw_rectangle_filled(1200,800,120,40,arcade.color.AERO_BLUE)
     arcade.draw_rectangle_outline(1200,800,120,40,arcade.color.BLACK)
-    easier_writing(1200, 800, "Bullwark")
+    easier_writing(1200, 800, "Bulwark")
 
+def on_key_press(self, key, modifiers):
+    """ Called whenever the user presses a key. """
+    if (key >= 48 and key <= 57):
+        print("num at ", key-48)
+    else:
+        return
 
 
 class TextButton:
@@ -271,7 +278,7 @@ class BuyEfficientHousesButton(TextButton):
         super().on_release()
         self.action_function()
 
-class MyGame(arcade.Window):
+class Bulwark(arcade.Window):
     """
     Main application class.
 
@@ -330,10 +337,6 @@ class MyGame(arcade.Window):
         for button in self.button_list:
             button.draw()
 
-
-
-
-
     def on_update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
@@ -366,18 +369,17 @@ class MyGame(arcade.Window):
 def main():
 
     """ Main method """
-    game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    game = Bulwark(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     game.setup()
     arcade.run()
 
-    
     # open window, set dimensions and title
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, 'island')
     # set background color to white
     arcade.set_background_color(arcade.color.WHITE)
     # start render process
     arcade.start_render()
-    
+
     # draw island
     island()
     arcade.schedule(ocean_rise, .01)
