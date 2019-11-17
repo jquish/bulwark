@@ -1,20 +1,48 @@
 import arcade
+import math
 
 # screen size constants
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 
 ocean_level = 0
+sandbag_level = 0
 
-def sandbags():
+def sandbag_row(self):
+
+    global sandbag_level
+    
+    if sandbag_level % 2 == 0: num_segs = 200
+    else: num_segs = 100
+        
+    start_segment = int(180 / 360 * num_segs)
+    end_segment = int(360 / 360 * num_segs)
+
+    # width - border_width / 2
+    width = 225 - 2 / 2
+     # height - border_width / 2
+    height = 55 - 2 / 2
+
+    for segment in range(start_segment, end_segment + 1):
+        theta = 2.0 * math.pi * segment / num_segs
+
+        x1 = width * math.cos(theta)
+        y1 = height * math.sin(theta)
+
+        arcade.draw_ellipse_filled(x1 + 300, y1 + 260 + (sandbag_level * 2), 8, 4, arcade.color.TAN, 0, 20)
+        
+    sandbag_level += 1
     
 
 def ocean_rise(self):
     
     # access global var
     global ocean_level
+    
     # redraw island & updated sea level
     island()
+    
+    # redraw sandbags
     
     # flood island
     for i in range (0, ocean_level):
@@ -38,7 +66,6 @@ def tree(x, y):
     
     # draws a lil tree
     tree = [[x, y], [x+6, y+10], [x+3, y+10], [x+10, y+20], [x+17, y+10], [x+14, y+10], [x+20, y]]
-    
     arcade.draw_polygon_filled(tree, (18, 77, 18))
     
     
@@ -122,7 +149,8 @@ def main():
     
     # draw island
     island()
-    arcade.schedule(ocean_rise, .01)
+    #arcade.schedule(ocean_rise, .01)
+    arcade.schedule(sandbags, .1)
 
     # finish drawing and display result
     arcade.finish_render();
