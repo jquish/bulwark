@@ -14,7 +14,19 @@ SCREEN_TITLE = "Bullwark"
 
 
 ocean_level = 0
+<<<<<<< Updated upstream
 
+=======
+sea_rise_rate = 1
+sandbag_count = 0
+panel_count = 0
+sandbag_protection = 0
+
+travel_duration = 1
+travel_efficienty = 1
+
+#Is there supposed to be something here?
+>>>>>>> Stashed changes
 def sandbags():
     
 
@@ -126,8 +138,11 @@ def draw_menu():
     arcade.draw_rectangle_outline(1200,800,120,40,arcade.color.BLACK)
     easier_writing(1200, 800, "Bullwark")
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 class TextButton:
     """ Text-based button """
 
@@ -235,6 +250,10 @@ class DeploySandbagsButton(TextButton):
         super().on_release()
         self.action_function()
 
+    def action_function():
+        global sandbag
+        return 1
+
 class SellSandbagsButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Sell Sandbags", 18, "Arial")
@@ -306,7 +325,7 @@ class MyGame(arcade.Window):
         deploy_sandbags_button = DeploySandbagsButton(1025, 515, self.pause_program)
         self.button_list.append(deploy_sandbags_button)
 
-        buy_panels_button = BuyPanelsButton(1025, 460, self.pause_program)
+        buy_panels_button = BuyPanelsButton(1025, 460, self.gain_panels)
         self.button_list.append(buy_panels_button)
 
         buy_forests_button = BuyForestsButton(1025, 405, self.pause_program)
@@ -356,6 +375,25 @@ class MyGame(arcade.Window):
         Called when a user releases a mouse button.
         """
         check_mouse_release_for_buttons(x, y, self.button_list)
+
+    def characterize_route(self, letter):
+        if (letter == "A"):
+            travel_duration = .5
+        elif (letter == "B"):
+            travel_duration = 1
+        elif (letter == "C"):
+            travel_duration = 2
+
+        elif (letter == "D"):
+            travel_efficienty = .5
+        elif(letter == "E"):
+            travel_efficienty = 1
+        elif(letter == "F"):
+            travel_efficienty = 2
+
+    def gain_panels(self):
+        self.panel_count += 1
+        print(panel_count)
 
     def pause_program(self):
         self.pause = True
