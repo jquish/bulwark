@@ -3,6 +3,25 @@ import arcade
 # screen size constants
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
+
+ocean_level = 0
+
+def sandbags():
+    
+
+def ocean_rise(self):
+    
+    # access global var
+    global ocean_level
+    # redraw island & updated sea level
+    island()
+    
+    # flood island
+    for i in range (0, ocean_level):
+        arcade.draw_arc_outline(300, 260 + i, 225, 55, arcade.color.TEAL, 180, 360, 2, 0, 20)
+    
+    # increase sea level
+    ocean_level += 1
     
 
 def house(x, y, color):
@@ -26,7 +45,7 @@ def tree(x, y):
 def island():
     
     # ocean
-    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300, arcade.color.TEAL)
+    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300 + (ocean_level * 2), arcade.color.TEAL)
     
     # island base
     arcade.draw_ellipse_filled(300, 260, 450, 110, arcade.color.FOREST_GREEN, 0, 20)
@@ -103,6 +122,7 @@ def main():
     
     # draw island
     island()
+    arcade.schedule(ocean_rise, .01)
 
     # finish drawing and display result
     arcade.finish_render();
