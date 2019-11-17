@@ -7,16 +7,15 @@ python -m arcade.examples.gui_text_button
 import arcade
 import random
 import os
+import math
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
-SCREEN_TITLE = "Bullwark"
-
+SCREEN_TITLE = "Bulwark"
 
 ocean_level = 0
-<<<<<<< Updated upstream
+sandbag_rows = 0
 
-=======
 sea_rise_rate = 1
 sandbag_count = 0
 panel_count = 0
@@ -25,25 +24,70 @@ sandbag_protection = 0
 travel_duration = 1
 travel_efficienty = 1
 
-#Is there supposed to be something here?
->>>>>>> Stashed changes
-def sandbags():
+
+""" draws half of a sandbag row -- takes row number, beginning & ending angles """
+def make_half_sandbag_row(row, start_angle, end_angle):
+    
+    if row % 2 == 0: num_segs = 200
+    else: num_segs = 100
+        
+    start_segment = int(start_angle / 360 * num_segs)
+    end_segment = int(end_angle / 360 * num_segs)
+
+    # width - border_width / 2
+    width = 225 - 2 / 2
+     # height - border_width / 2
+    height = 55 - 2 / 2
+
+    for segment in range (start_segment, end_segment + 1):
+        theta = 2.0 * math.pi * segment / num_segs
+
+        x1 = width * math.cos(theta)
+        y1 = height * math.sin(theta)
+
+        arcade.draw_ellipse_filled(x1 + 300, y1 + 260 + (row * 2), 8, 4, arcade.color.TAN, 0, 20)
+        
+        
+""" adds a full row of sandbags """
+def update_sandbags(self):
+    
+    # accesses global variable
+    global sandbag_rows
+    
+    # draws back half of new row
+    make_half_sandbag_row(sandbag_rows, 0, 180)
+    # redraws island
+    island()
+    # draws front half of all rows -- necessary because island is printed overtop previous rows
+    for row in range (0, sandbag_rows):
+        make_half_sandbag_row(row, 180, 360)
+    
+    # updates row count
+    sandbag_rows += 1
     
 
+def delete_sandbag_row():
+    return 1
+  
+
+def make_bulwark():
+    return 1
+
+
 def ocean_rise(self):
-    
+
     # access global var
     global ocean_level
     # redraw island & updated sea level
     island()
-    
+
     # flood island
     for i in range (0, ocean_level):
         arcade.draw_arc_outline(300, 260 + i, 225, 55, arcade.color.TEAL, 180, 360, 2, 0, 20)
-    
+
     # increase sea level
     ocean_level += 1
-   
+
 
 def house(x, y, color):
 
@@ -54,23 +98,26 @@ def house(x, y, color):
     arcade.draw_rectangle_filled(x+3, y+5, 2, 4, arcade.color.CORNSILK, 0)
     arcade.draw_rectangle_filled(x+9, y+5, 2, 4, arcade.color.CORNSILK, 0)
 
+    
 def tree(x, y):
 
     # draws a lil tree
     tree = [[x, y], [x+6, y+10], [x+3, y+10], [x+10, y+20], [x+17, y+10], [x+14, y+10], [x+20, y]]
 
     arcade.draw_polygon_filled(tree, (18, 77, 18))
+    
 
-def easier_writing(lowX, lowY, string):
-    arcade.draw_text(string, lowX, lowY, arcade.color.BLACK, 20, width=100, align="center", anchor_x="center", anchor_y="center")
+def draw_scene():
+    # draws ocean
+#    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300, arcade.color.TEAL)
+    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300 + (ocean_level * 2), arcade.color.TEAL)
+    # draws island
+    island()
 
+    
+    
 def island():
 
-    # ocean
-    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.AERO_BLUE)
-    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300, arcade.color.TEAL)
-    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300 + (ocean_level * 2), arcade.color.TEAL)
-    
     # island base
     arcade.draw_ellipse_filled(300, 260, 450, 110, arcade.color.FOREST_GREEN, 0, 20)
 
@@ -107,8 +154,14 @@ def island():
     tree(410, 270)
     tree(450, 280)
     tree(465, 265)
+    # atop mountain 3
     tree(335, 365)
     tree(320, 355)
+    
+    
+    # HOUSES 
+
+    # bottom right of mountain 1
     house(310, 260, (170, 143, 168))
     house(270, 255, (107, 76, 105))
     house(290, 245, (134, 95, 132))
@@ -126,7 +179,25 @@ def island():
     house(330, 290, (170, 143, 168))
     # top of mountain 3
     house(350, 360, (134, 95, 132))
+    
 
+def easier_writing(lowX, lowY, string):
+    arcade.draw_text(string, lowX, lowY, arcade.color.BLACK, 20, width=100, align="center", anchor_x="center", anchor_y="center")
+  
+    #Writing in the game stats
+    arcade.draw_rectangle_filled(200, 100, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Sea level: " + str(ocean_level)), 200, 100, arcade.color.BLACK, 20, width=150, align="center", anchor_x="center", anchor_y="center")
+
+    arcade.draw_rectangle_filled(600, 100, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Sandbag Protection: " + str(sandbag_protection)), 600, 100, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
+
+    arcade.draw_rectangle_filled(200, 50, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Sea Level Rise Rate: " + str(sea_rise_rate)), 200, 50, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
+
+    arcade.draw_rectangle_filled(600, 50, 280, 45, arcade.color.TROLLEY_GREY)
+    arcade.draw_text(str("Amassed Sandbags: " + str(sandbag_count)), 600, 50, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
+
+    
 def draw_menu():
     # finish drawing and display result
 
@@ -136,13 +207,17 @@ def draw_menu():
 
     arcade.draw_rectangle_filled(1200,800,120,40,arcade.color.AERO_BLUE)
     arcade.draw_rectangle_outline(1200,800,120,40,arcade.color.BLACK)
-    easier_writing(1200, 800, "Bullwark")
+    easier_writing(1200, 800, "Bulwark")
+    
 
-<<<<<<< Updated upstream
+def on_key_press(self, key, modifiers):
+    """ Called whenever the user presses a key. """
+    if (key >= 48 and key <= 57):
+        print("num at ", key-48)
+    else:
+        return
 
-
-=======
->>>>>>> Stashed changes
+      
 class TextButton:
     """ Text-based button """
 
@@ -221,6 +296,7 @@ class TextButton:
     def on_release(self):
         self.pressed = False
 
+
 def check_mouse_press_for_buttons(x, y, button_list):
     """ Given an x, y, see if we need to register any button clicks. """
     for button in button_list:
@@ -241,6 +317,7 @@ def check_mouse_release_for_buttons(_x, _y, button_list):
         if button.pressed:
             button.on_release()
 
+            
 class DeploySandbagsButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Deploy Sandbags", 18, "Arial")
@@ -250,9 +327,11 @@ class DeploySandbagsButton(TextButton):
         super().on_release()
         self.action_function()
 
+
     def action_function():
         global sandbag
         return 1
+
 
 class SellSandbagsButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
@@ -263,6 +342,7 @@ class SellSandbagsButton(TextButton):
         super().on_release()
         self.action_function()
 
+        
 class BuyPanelsButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Install Solar Power", 18, "Arial")
@@ -272,6 +352,7 @@ class BuyPanelsButton(TextButton):
         super().on_release()
         self.action_function()
 
+        
 class BuyForestsButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Plant Forests", 18, "Arial")
@@ -281,6 +362,7 @@ class BuyForestsButton(TextButton):
         super().on_release()
         self.action_function()
 
+        
 class BuyEfficientHousesButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Renovate Houses", 18, "Arial")
@@ -290,7 +372,63 @@ class BuyEfficientHousesButton(TextButton):
         super().on_release()
         self.action_function()
 
-class MyGame(arcade.Window):
+
+class TrafficLight(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Light Traffic", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class TrafficMid(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Average Traffic", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class TrafficHeavy(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Heavy Traffic", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class DistShort(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Short Distance", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class DistMid(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Average Distance", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+class DistLong(TextButton):
+    def __init__(self, center_x, center_y, action_function):
+        super().__init__(center_x, center_y, 200, 40, "Long Distance", 18, "Arial")
+        self.action_function = action_function
+
+    def on_release(self):
+        super().on_release()
+        self.action_function()
+
+        
+class Bulwark(arcade.Window):
     """
     Main application class.
 
@@ -299,8 +437,8 @@ class MyGame(arcade.Window):
     with your own code. Don't leave 'pass' in this program.
     """
 
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+    def __init__(self):
+#        super().__init__(width, height, title)
 
         # Set the working directory (where we expect to find files) to the same
         # directory this .py file is in. You can leave this out of your own
@@ -312,6 +450,7 @@ class MyGame(arcade.Window):
         self.pause = False
         self.button_list = None
 
+        
     def setup(self):
         # Create the Island scene
 
@@ -333,7 +472,39 @@ class MyGame(arcade.Window):
 
         buy_houses_button = BuyEfficientHousesButton(1025, 350, self.pause_program)
         self.button_list.append(buy_houses_button)
+        
 
+#    def on_draw(self):
+#        """
+#        Render the screen.
+#        """
+#
+#        arcade.start_render()
+#        island()
+#        draw_menu()
+#
+#        # Draw the buttons
+#        for button in self.button_list:
+#            button.draw()
+
+
+        traffic_light = TrafficLight(1025, 275, self.pause_program)
+        self.button_list.append(traffic_light)
+
+        traffic_mid = TrafficMid(1025, 220, self.pause_program)
+        self.button_list.append(traffic_mid)
+
+        traffic_heavy = TrafficHeavy(1025, 165, self.pause_program)
+        self.button_list.append(traffic_heavy)
+
+        distance_short = DistShort(1245, 275, self.pause_program)
+        self.button_list.append(distance_short)
+
+        distance_mid = DistMid(1245, 220, self.pause_program)
+        self.button_list.append(distance_mid)
+
+        distance_long = DistLong(1245, 165, self.pause_program)
+        self.button_list.append(distance_long)
 
 
     def on_draw(self):
@@ -348,10 +519,7 @@ class MyGame(arcade.Window):
         # Draw the buttons
         for button in self.button_list:
             button.draw()
-
-
-
-
+            
 
     def on_update(self, delta_time):
         """
@@ -370,12 +538,14 @@ class MyGame(arcade.Window):
         """
         check_mouse_press_for_buttons(x, y, self.button_list)
 
+        
     def on_mouse_release(self, x, y, button, key_modifiers):
         """
         Called when a user releases a mouse button.
         """
         check_mouse_release_for_buttons(x, y, self.button_list)
 
+        
     def characterize_route(self, letter):
         if (letter == "A"):
             travel_duration = .5
@@ -395,19 +565,20 @@ class MyGame(arcade.Window):
         self.panel_count += 1
         print(panel_count)
 
+
     def pause_program(self):
         self.pause = True
 
+        
     def resume_program(self):
         self.pause = False
 
+        
 def main():
 
-    """ Main method """
-    game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    game.setup()
-    arcade.run()
-
+    # initializes instance of Bulwark
+    bulwark = Bulwark()
+    bulwark.setup()
     
     # open window, set dimensions and title
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, 'island')
@@ -415,10 +586,16 @@ def main():
     arcade.set_background_color(arcade.color.WHITE)
     # start render process
     arcade.start_render()
+
     
     # draw island
-    island()
-    arcade.schedule(ocean_rise, .01)
+    draw_scene()
+    arcade.schedule(update_sandbags, .1)
+
+    # finish drawing and display result
+    arcade.finish_render();
+    # keep window open until closed by user
+    arcade.run();
 
 
 if __name__ == "__main__":
