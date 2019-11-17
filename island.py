@@ -14,8 +14,15 @@ SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Bulwark"
 
 ocean_level = 0
-<<<<<<< HEAD
 sandbag_rows = 0
+
+sea_rise_rate = 1
+sandbag_count = 0
+panel_count = 0
+sandbag_protection = 0
+
+travel_duration = 1
+travel_efficienty = 1
 
 
 """ draws half of a sandbag row -- takes row number, beginning & ending angles """
@@ -61,12 +68,7 @@ def update_sandbags(self):
 
 def delete_sandbag_row():
     return 1
-
-=======
-sea_rise_rate = 1
-sandbag_count = 0
-sandbag_protection = 0
->>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
+  
 
 def make_bulwark():
     return 1
@@ -179,13 +181,10 @@ def island():
     house(350, 360, (134, 95, 132))
     
 
-<<<<<<< HEAD
 def easier_writing(lowX, lowY, string):
     arcade.draw_text(string, lowX, lowY, arcade.color.BLACK, 20, width=100, align="center", anchor_x="center", anchor_y="center")
-   
-    
-=======
-#Writing in the game stats
+  
+    #Writing in the game stats
     arcade.draw_rectangle_filled(200, 100, 280, 45, arcade.color.TROLLEY_GREY)
     arcade.draw_text(str("Sea level: " + str(ocean_level)), 200, 100, arcade.color.BLACK, 20, width=150, align="center", anchor_x="center", anchor_y="center")
 
@@ -198,8 +197,7 @@ def easier_writing(lowX, lowY, string):
     arcade.draw_rectangle_filled(600, 50, 280, 45, arcade.color.TROLLEY_GREY)
     arcade.draw_text(str("Amassed Sandbags: " + str(sandbag_count)), 600, 50, arcade.color.BLACK, 20, width=300, align="center", anchor_x="center", anchor_y="center")
 
-
->>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
+    
 def draw_menu():
     # finish drawing and display result
 
@@ -219,7 +217,7 @@ def on_key_press(self, key, modifiers):
     else:
         return
 
-
+      
 class TextButton:
     """ Text-based button """
 
@@ -329,7 +327,12 @@ class DeploySandbagsButton(TextButton):
         super().on_release()
         self.action_function()
 
-        
+
+    def action_function():
+        global sandbag
+        return 1
+
+
 class SellSandbagsButton(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Sell Sandbags", 18, "Arial")
@@ -369,9 +372,7 @@ class BuyEfficientHousesButton(TextButton):
         super().on_release()
         self.action_function()
 
-<<<<<<< HEAD
-        
-=======
+
 class TrafficLight(TextButton):
     def __init__(self, center_x, center_y, action_function):
         super().__init__(center_x, center_y, 200, 40, "Light Traffic", 18, "Arial")
@@ -426,10 +427,7 @@ class DistLong(TextButton):
         super().on_release()
         self.action_function()
 
-
-
-
->>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
+        
 class Bulwark(arcade.Window):
     """
     Main application class.
@@ -466,7 +464,7 @@ class Bulwark(arcade.Window):
         deploy_sandbags_button = DeploySandbagsButton(1025, 515, self.pause_program)
         self.button_list.append(deploy_sandbags_button)
 
-        buy_panels_button = BuyPanelsButton(1025, 460, self.pause_program)
+        buy_panels_button = BuyPanelsButton(1025, 460, self.gain_panels)
         self.button_list.append(buy_panels_button)
 
         buy_forests_button = BuyForestsButton(1025, 405, self.pause_program)
@@ -474,7 +472,6 @@ class Bulwark(arcade.Window):
 
         buy_houses_button = BuyEfficientHousesButton(1025, 350, self.pause_program)
         self.button_list.append(buy_houses_button)
-<<<<<<< HEAD
         
 
 #    def on_draw(self):
@@ -489,7 +486,7 @@ class Bulwark(arcade.Window):
 #        # Draw the buttons
 #        for button in self.button_list:
 #            button.draw()
-=======
+
 
         traffic_light = TrafficLight(1025, 275, self.pause_program)
         self.button_list.append(traffic_light)
@@ -522,7 +519,7 @@ class Bulwark(arcade.Window):
         # Draw the buttons
         for button in self.button_list:
             button.draw()
->>>>>>> 119504c94591681c02be1d93dc07cdfb7a141980
+            
 
     def on_update(self, delta_time):
         """
@@ -549,6 +546,26 @@ class Bulwark(arcade.Window):
         check_mouse_release_for_buttons(x, y, self.button_list)
 
         
+    def characterize_route(self, letter):
+        if (letter == "A"):
+            travel_duration = .5
+        elif (letter == "B"):
+            travel_duration = 1
+        elif (letter == "C"):
+            travel_duration = 2
+
+        elif (letter == "D"):
+            travel_efficienty = .5
+        elif(letter == "E"):
+            travel_efficienty = 1
+        elif(letter == "F"):
+            travel_efficienty = 2
+
+    def gain_panels(self):
+        self.panel_count += 1
+        print(panel_count)
+
+
     def pause_program(self):
         self.pause = True
 
