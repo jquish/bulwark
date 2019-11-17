@@ -569,7 +569,7 @@ def main():
     bulwark.setup()
     
     # open window, set dimensions and title
-    arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, 'island')
+    arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     # set background color to white
     arcade.set_background_color(arcade.color.WHITE)
     # start render process
@@ -578,7 +578,6 @@ def main():
     
     # draw island
     draw_scene()
-    arcade.schedule(update_sandbags, .1)
 
     # finish drawing and display result
     arcade.finish_render();
