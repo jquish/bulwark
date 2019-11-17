@@ -12,6 +12,27 @@ SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Bullwark"
 
+
+ocean_level = 0
+
+def sandbags():
+    
+
+def ocean_rise(self):
+    
+    # access global var
+    global ocean_level
+    # redraw island & updated sea level
+    island()
+    
+    # flood island
+    for i in range (0, ocean_level):
+        arcade.draw_arc_outline(300, 260 + i, 225, 55, arcade.color.TEAL, 180, 360, 2, 0, 20)
+    
+    # increase sea level
+    ocean_level += 1
+   
+
 def house(x, y, color):
 
     # draws a lil house
@@ -36,7 +57,8 @@ def island():
     # ocean
     arcade.draw_rectangle_filled(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.AERO_BLUE)
     arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300, arcade.color.TEAL)
-
+    arcade.draw_rectangle_filled(SCREEN_WIDTH/2, 150, SCREEN_WIDTH, 300 + (ocean_level * 2), arcade.color.TEAL)
+    
     # island base
     arcade.draw_ellipse_filled(300, 260, 450, 110, arcade.color.FOREST_GREEN, 0, 20)
 
@@ -342,10 +364,24 @@ class MyGame(arcade.Window):
         self.pause = False
 
 def main():
+
     """ Main method """
     game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     game.setup()
     arcade.run()
+
+    
+    # open window, set dimensions and title
+    arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, 'island')
+    # set background color to white
+    arcade.set_background_color(arcade.color.WHITE)
+    # start render process
+    arcade.start_render()
+    
+    # draw island
+    island()
+    arcade.schedule(ocean_rise, .01)
+
 
 if __name__ == "__main__":
     main()
